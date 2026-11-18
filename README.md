@@ -1,17 +1,31 @@
-# DreamShield iOS 0.1.1
+# DreamShield iOS v0.1.1
 
-SwiftUI 原生客户端，最低支持 iOS／iPadOS 17。交付包括 Xcode 工程、Swift 源码、图片资源、隐私清单和原有测试目标。界面支持配对、状态、环境、抓拍、历史记录和原有 AI 功能入口。v0.1.6 的温控预设及热像闭环仍在电脑控制台操作。
+The native SwiftUI app supports iOS and iPadOS 17 or later. It pairs with the DreamShield desktop server and displays connection status, environmental readings, snapshots, and history. It also provides an entry point for AI review. Configure temperature-control presets and closed-loop thermal assessment in the desktop console.
 
-## 构建
+## Build
 
-在 Mac 上使用 Xcode 16 或兼容版本打开 DreamShield.xcodeproj，选择共享的 DreamShield Scheme 和 iPhone 模拟器，点击 Run。安装到 iPhone 时，在 Signing & Capabilities 选择自己的 Team，再选真机运行。
+Open `DreamShield.xcodeproj` on a Mac with Xcode 16 or a compatible version. Choose the shared **DreamShield** scheme, select an iPhone simulator, and click **Run**. To install on an iPhone, select your own team in **Signing & Capabilities** and run against the connected device.
 
-工程结构可运行 python scripts/validate_project.py 检查。在 Mac 上可运行 bash scripts/verify_build.sh 做模拟器构建。无签名模拟器构建不依赖 Apple 签名。
+From the repository root, run the project structure check.
 
-本次在 Windows 通过 57 项工程结构检查和 34 项辅助工具测试。Swift 编译、XCTest 和真机验收需要在 macOS 的 Xcode 中完成。
+~~~sh
+python scripts/validate_project.py
+~~~
 
-## 连接 v0.1.6
+On macOS, run the simulator build check. The unsigned simulator build does not require Apple signing credentials.
 
-按照配套服务端的 README 在电脑启动服务，然后打开 http://127.0.0.1:8016/mobile-setup。在 iOS App 的设置中粘贴该页面生成的配对 JSON，核对电脑的局域网地址和证书指纹，首次连接时允许本地网络访问。配对信息使用电脑的 HTTPS 网关，默认端口 8746。
+~~~sh
+bash scripts/verify_build.sh
+~~~
 
-配套服务端为 [DreamShield Server v0.1.6](https://github.com/Reizen721/dreamshield-server/tree/v0.1.6)。网关地址、配对请求与响应遵循[手机接口约定](https://github.com/Reizen721/dreamshield-server/blob/v0.1.6/docs/mobile-api.md)。[版本兼容表](https://github.com/Reizen721/dreamshield-server/blob/v0.1.6/docs/compatibility.md)维护三个项目的验证范围。配套 Android 客户端见 [DreamShield Android](https://github.com/Reizen721/dreamshield-android)。
+## Pair with the server
+
+1. Start [DreamShield Server](https://github.com/Reizen721/dreamshield-server) on your PC. This iOS release pairs with Server v0.1.6.
+2. On the PC, open [the mobile setup page](http://127.0.0.1:8016/mobile-setup).
+3. With the iOS device and PC on the same local network, paste the generated pairing JSON into the app's settings. Verify the PC's local address and certificate fingerprint. Allow local network access when prompted. The gateway uses HTTPS on port `8746` by default.
+
+See the [mobile API contract](https://github.com/Reizen721/dreamshield-server/blob/v0.1.6/docs/mobile-api.md) for gateway addresses and pairing payloads, and the [compatibility matrix](https://github.com/Reizen721/dreamshield-server/blob/v0.1.6/docs/compatibility.md) for tested versions. The Android companion app is in [DreamShield Android](https://github.com/Reizen721/dreamshield-android).
+
+## Verification
+
+On Windows, 57 project structure checks and 34 supporting-tool tests passed. Swift compilation, XCTest, and on-device verification require Xcode on macOS.
